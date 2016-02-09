@@ -1,0 +1,21 @@
+<table border="0">
+	<tr>
+		<th>Index</th>
+		<th>Title</th>
+		<th>Poster</th>
+		
+	</tr>
+	<tr ng-repeat="movie in movies">
+		<td>{{ movie.sl }}</td>
+		<td>{{ movie.title }}</td>
+		<td><img ng-src="{{ movie.poster }}" width="50" height="50" align="absmiddle" /></td>		
+	</tr>
+
+</table>
+<a href="#/">Home</a>
+<h1>{{ message }}</h1>
+<h1>{{ version }}</h1>
+<hr />
+<h1>{{ constmessage }}</h1>
+<h1>{{ constversion }}</h1>
+
