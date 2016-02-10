@@ -1,132 +1,39 @@
 var express = require("express");
+var fs = require("fs");
 var bp = require("body-parser");
 var app = express();
 app.use(express.static(__dirname+"/public"));
-var data = {
- "heros":[
-    {
-        "id": 1,
-        "movies": 3,
-        "title": "Batman",
-        "city": "Gothem",
-        "power": 8,
-        "photo": "images/batman.jpg",
-        "movieslist": [
-            {
-                "sl": 1,
-                "title": "Batman Begins",
-                "poster": "images/bat1_tn.jpg"
-            },
-            {
-                "sl": 2,
-                "title": "Dark Knight",
-                "poster": "images/bat2_tn.jpg"
-            },
-            {
-                "sl": 3,
-                "title": "Dark Knight Raises",
-                "poster": "images/bat3_tn.jpg"
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "movies": 3,
-        "title": "Superman",
-        "city": "Metropolis",
-        "power": 8,
-        "photo": "images/superman.jpg",
-        "movieslist": [
-            {
-                "sl": 1,
-                "title": "Superman The Movie",
-                "poster": "images/super1_tn.jpg"
-            },
-            {
-                "sl": 2,
-                "title": "Superman Returns",
-                "poster": "images/super2_tn.jpg"
-            },
-            {
-                "sl": 3,
-                "title": "Superman Man of Steel",
-                "poster": "images/super3_tn.jpg"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "movies": 3,
-        "title": "Ironman",
-        "city": "New York",
-        "power": 3,
-        "photo": "images/ironman.jpg",
-        "movieslist": [
-            {
-                "sl": 1,
-                "title": "Ironman",
-                "poster": "images/iron1_tn.jpg"
-            },
-            {
-                "sl": 2,
-                "title": "Ironman 2",
-                "poster": "images/iron2_tn.jpg"
-            },
-            {
-                "sl": 3,
-                "title": "Ironman 3",
-                "poster": "images/iron3_tn.jpg"
-            }
-        ]
-    },
-    {
-        "id": 4,
-        "movies": 1,
-        "title": "Phantom",
-        "city": "Bhangala",
-        "power": 6,
-        "photo": "images/phantom.jpg",
-        "movieslist": [
-            {
-                "sl": 1,
-                "title": "The Phantom Slam Evil",
-                "poster": "images/phantom1_tn.jpg"
-            }
-        ]
-    },
-    {
-        "id": 5,
-        "movies": 3,
-        "title": "Spiderman",
-        "city": "New York",
-        "power": 8,
-        "photo": "images/spiderman.jpg",
-        "movieslist": [
-            {
-                "sl": 1,
-                "title": "Spiderman",
-                "poster": "images/spider1_tn.jpg"
-            },
-            {
-                "sl": 2,
-                "title": "Spiderman 2",
-                "poster": "images/spider2_tn.jpg"
-            },
-            {
-                "sl": 3,
-                "title": "Spiderman 3",
-                "poster": "images/spider3_tn.jpg"
-            }
-        ]
-    }
-]
-};
+app.use(bp.json());
+app.use(bp.urlencoded());
 
+var heros = null;
 app.get("/",function(req,res){
 	res.send();
 });
-app.get("/heros",function(req,res){
-	res.json(data);
+app.get("/heros",function(req,res){	
+	fs.readFile("public/com/data/heros.json",function(error,data){
+		//console.log(data.toString());
+		heros = JSON.parse(data.toString());			
+		res.json(heros);		
+	});
+}); 
+
+app.post("/heros",function(req,res){
+	heros.heros.push(req.body);
+	fs.writeFile("public/com/data/heros.json",JSON.stringify(heros),function(){
+		console.log("file updated");
+		res.send(heros);
+	});
+});
+app.put("/movies/:id",function(req,res){
+	console.log("i got a post " + req.params.id);
+	var id = req.params.id;	
+	heros.heros[id-1].movieslist.push(req.body);
+	heros.heros[id-1].movies = heros.heros[id-1].movieslist.length;
+	fs.writeFile("public/com/data/heros.json",JSON.stringify(heros),function(){
+		console.log("file updated movies");
+		res.json(heros);
+	});
 });
 
 app.listen(4567);
