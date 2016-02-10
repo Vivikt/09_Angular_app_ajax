@@ -3,8 +3,17 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>CRUD</title>
+	<script src="lib/angular.min.js"></script>
+	<script src="lib/angular-route.min.js"></script>
+	<script src="com/module/app.js"></script>
+	
+	<script src="com/config/route.js"></script>
+	<script src="com/controllers/heros.js"></script>
+	<script src="com/controllers/movies.js"></script>
+	
+	<script src="com/service/ajaxfactory.js"></script>
 </head>
-<body>
-	<h1>Hello from CRUD</h1>
+<body ng-app="app">
+	<ng-view></ng-view>
 </body>
 </html>

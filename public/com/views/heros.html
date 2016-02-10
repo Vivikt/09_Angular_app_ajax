@@ -7,7 +7,7 @@
 		<th>Power</th>
 		<th>Movies Total</th>
 	</tr>
-	<tr ng-repeat="hero in data.heros">
+	<tr ng-repeat="hero in data">
 		<td>{{ hero.id }}</td>
 		<td>{{ hero.title }}</td>
 		<td><img ng-src="{{ hero.photo }}" width="50" height="50" align="absmiddle" /></td>
@@ -17,10 +17,3 @@
 		
 	</tr>
 </table>
-<h1>{{ message }}</h1>
-<h1>{{ version }}</h1>
-<hr />
-<h1>{{ constmessage }}</h1>
-<h1>{{ constversion }}</h1>
-<hr />
-<h1>{{ ht }}</h1>
